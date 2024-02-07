@@ -15,17 +15,24 @@ export async function signUp(userData) {
 }
 
 export function getToken() {
-  // getItem will return null if the key does not exist
   const token = localStorage.getItem('token');
   if (!token) return null;
-  // Let's check if token has expired...
-  const payload = JSON.parse(atob(token.split('.')[1]));
-  if (payload.exp < Date.now() / 1000) {
-    // Token has expired
+
+  try {
+    const decodedToken = JSON.parse(atob(token.split('.')[1]));
+    const { exp } = decodedToken;
+
+    if (exp < Date.now() / 1000) {
+      localStorage.removeItem('token');
+      return null;
+    }
+
+    return token;
+  } catch (error) {
+    console.error('Error decoding token:', error);
     localStorage.removeItem('token');
     return null;
   }
-  return token;
 }
 
 export function getUser() {

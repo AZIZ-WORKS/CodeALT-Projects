@@ -12,7 +12,7 @@ function App() {
 
   return (
     <main className="App">
-      { user ?
+      {user ?
         <>
           <NavBar user={user} setUser={setUser} />
           <Routes>
@@ -20,6 +20,8 @@ function App() {
             <Route path="/orders/new" element={<NewOrderPage />} />
             <Route path="/orders" element={<OrderHistoryPage />} />
           </Routes>
+          <h1>hi there </h1>
+
         </>
         :
         <AuthPage setUser={setUser} />
